@@ -2,17 +2,8 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
   TransitionChild,
 } from "@headlessui/react";
-import {
-  Bars3Icon,
-  ChevronUpDownIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
 import {
   Cog6ToothIcon,
   FolderIcon,
@@ -20,31 +11,62 @@ import {
   ServerIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { Navigate } from "@tanstack/react-router";
 import clsx from "clsx";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
+import useStore from "../../store";
+import { Routes } from "../constants";
+import Project from "../components/Projects";
+import PATs from "../components/PATs";
 
 interface NavigationItem {
   name: string;
   href: string;
   icon: React.ComponentType<React.ComponentProps<"svg">>;
   current: boolean;
+  component: ReactElement;
 }
 
 const navigation: NavigationItem[] = [
-  { name: "Projects", href: "#", icon: FolderIcon, current: true },
-  { name: "Services", href: "#", icon: ServerIcon, current: false },
+  {
+    name: "Project management",
+    href: "#",
+    icon: FolderIcon,
+    current: true,
+    component: <Project />,
+  },
+  {
+    name: "Services",
+    href: "#",
+    icon: ServerIcon,
+    current: false,
+    component: <></>,
+  },
   {
     name: "Personal Access tokens",
     href: "#",
     icon: GlobeAltIcon,
     current: false,
+    component: <></>,
   },
-  { name: "Settings", href: "#", icon: Cog6ToothIcon, current: false },
+  {
+    name: "Settings",
+    href: "#",
+    icon: Cog6ToothIcon,
+    current: false,
+    component: <></>,
+  },
 ];
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navigations, setNavigations] = useState(navigation);
+  const user = useStore((state) => state.user);
+  const authToken = useStore((state) => state.authToken);
+
+  if (!authToken) {
+    return <Navigate to={Routes.Home} />;
+  }
 
   return (
     <>
@@ -84,7 +106,7 @@ export default function Example() {
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     alt="Your Company"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="/logo.png"
                     className="h-8 w-auto"
                   />
                 </div>
@@ -148,11 +170,7 @@ export default function Example() {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 ring-1 ring-white/5">
             <div className="flex h-16 shrink-0 items-center">
-              <img
-                alt="Your Company"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                className="h-8 w-auto"
-              />
+              <img alt="Your Company" src="/logo.png" className="h-8 w-auto" />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -219,11 +237,11 @@ export default function Example() {
                   >
                     <img
                       alt=""
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                       className="h-8 w-8 rounded-full bg-gray-800"
                     />
                     <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
+                    <span aria-hidden="true">{user && user.username}</span>
                   </a>
                 </li>
               </ul>
@@ -233,7 +251,23 @@ export default function Example() {
 
         <div className="xl:pl-72">
           <main className="lg:pr-96">
-            
+            <h1 className="pl-8 p-4 text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight">
+              {navigations.find((nav) => nav.current)?.name}{" "}
+            </h1>
+            <div className="pl-8">
+              {navigations.find((nav) => nav.current)?.name ===
+                "Project management" && <Project />}
+              {navigations.find((nav) => nav.current)?.name ===
+                "Personal Access tokens" && <PATs />}
+            </div>
+            {navigations.find((nav) => nav.current)?.name === "Services" && (
+              <>
+                <img src="/services.png" />
+              </>
+            )}
+            {navigations.find((nav) => nav.current)?.name === "Settings" && (
+              <></>
+            )}
           </main>
         </div>
       </div>

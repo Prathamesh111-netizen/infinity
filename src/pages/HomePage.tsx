@@ -49,7 +49,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
           <img
             alt="Your Company"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+            src="/logo.png"
             className="h-11"
           />
           <div className="mt-24 sm:mt-32 lg:mt-16">
@@ -70,9 +70,8 @@ export default function HomePage() {
             Deploy to the cloud with confidence
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-            lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-            fugiat aliqua.
+            Our platform provides you with all the tools you need to
+            deploy your projects with ease and confidence
           </p>
           <div className="mt-10 flex items-center gap-x-6">
             <a
