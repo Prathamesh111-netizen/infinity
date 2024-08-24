@@ -28,9 +28,10 @@ export interface Project {
     vmAttached: string;
     previousDeployments?: {
         deploymentId: string;
-        deploymentName: string;
-        deploymentType: 'Source" | "Build" | "Test" | "Deploy';
-        deploymentStatus: 'Success' | 'Failed' | 'In Progress';
+        deploymentType: "Source" | "TYPECHECK" | "Deploy";
+        deploymentStatus: 'Success' | 'Failed';
         deploymentLogs: string;
+        updatedAt: Date;
     }[];
+    externalPorts?: string[];
 }

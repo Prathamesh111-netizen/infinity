@@ -35,6 +35,6 @@ export const useProjectData = (projectId: string) => {
                 throw new Error(response.data.message);
             return response.data.data as Project;
         },
-        staleTime: 1000 * 60,
+        staleTime: 1000 * 10,
     })
 }

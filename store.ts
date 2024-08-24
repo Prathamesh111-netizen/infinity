@@ -16,6 +16,10 @@ interface IStore {
     setAuthToken: (token: string) => void,
     currentSelectedProject: string | null;
     setCurrentSelectedProject: (projectId: string | null) => void;
+    deploymentId: string | null;
+    setDeploymentId: (deploymentId: string | null) => void;
+    deploymentLogs: "Source" | "TYPECHECK" | "Deploy";
+    setDeploymentLogs: (deploymentLogs: "Source" | "TYPECHECK" | "Deploy") => void;
 }
 
 const useStore = create<IStore>()(
@@ -27,6 +31,10 @@ const useStore = create<IStore>()(
             setAuthToken: (authToken: string) => set({ authToken }),
             currentSelectedProject: localStorage.getItem('currentSelectedProject') || null,
             setCurrentSelectedProject: (currentSelectedProject: string | null) => set({ currentSelectedProject }),
+            deploymentId: localStorage.getItem('deploymentId') || null,
+            setDeploymentId: (deploymentId: string | null) => set({ deploymentId }),
+            deploymentLogs: "Source",
+            setDeploymentLogs: (deploymentLogs: "Source" | "TYPECHECK" | "Deploy") => set({ deploymentLogs }),
         }),
         {
             name: 'user-storage',

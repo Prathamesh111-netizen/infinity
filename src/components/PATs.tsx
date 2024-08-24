@@ -71,12 +71,7 @@ export default function PATs() {
               >
                 ID
               </th>
-              <th
-                scope="col"
-                className="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell"
-              >
-                Personal Access Token
-              </th>
+
               <th
                 scope="col"
                 className="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20"
@@ -115,14 +110,14 @@ export default function PATs() {
                 </td>
                 <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8 max-w-56 scroll-m-4">
                   <div className="truncate font-mono text-sm leading-6 text-gray-400 ">
-                    {item.token.substring(0, 50)}
-                  </div>
-                </td>
-                <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8 max-w-56 scroll-m-4">
-                  <div className="truncate font-mono text-sm leading-6 text-gray-400 ">
                     {item.desc.substring(0, 50)}
                   </div>
                 </td>
+                {/* <td className="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8 max-w-56 scroll-m-4">
+                  <div className="truncate font-mono text-sm leading-6 text-gray-400 ">
+                    {item.desc.substring(0, 50)}
+                  </div>
+                </td> */}
 
                 <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
                   <div className="flex items-center justify-end gap-x-2 sm:justify-start">
@@ -137,15 +132,14 @@ export default function PATs() {
                     </div>
                     <div className="hidden text-white sm:block">
                       {/* {item.status} */}
-                      Completed
+                      Active
                     </div>
                   </div>
                 </td>
-                <td className="hidden py-4 pl-0 pr-8 text-sm leading-6 text-gray-400 md:table-cell lg:pr-20 W-40">
-                  {/* {item.duration} */}
+                <td className="py-4 text-sm text-gray-400 md:table-cell lg:pr-20 w-40">
                   <div className="flex items-center justify-center gap-x-2 ">
                     <button
-                      className="text-white hover:text-indigo-400 bg-red-500 px-3 py-2 rounded-lg"
+                      className="text-white hover:text-indigo-400 bg-red-500 px-4 py-2 rounded-lg"
                       onClick={() => setOpen(true)}
                     >
                       delete the PAT

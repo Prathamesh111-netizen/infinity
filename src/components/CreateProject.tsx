@@ -1,3 +1,5 @@
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Dialog,
   DialogBackdrop,
@@ -9,11 +11,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import toast from "react-hot-toast";
 import requester from "../../requester";
+import useStore from "../../store";
 import { backendRoutes, queryKeys } from "../constants";
 import { useUserData } from "../hooks";
-import useStore from "../../store";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function CreateProjectModal({
   open,
@@ -27,8 +27,25 @@ export default function CreateProjectModal({
   const [desc, setDesc] = React.useState("");
   const [githubLink, setGithubLink] = React.useState("");
   const authToken = useStore((state) => state.authToken);
-  const { data: userData, isLoading, isError } = useUserData();
-  console.log({ userData, isLoading, isError });
+
+  const [newPat, setNewPat] = React.useState("");
+  const [patOptions, setPatOptions] = React.useState<
+    { name: string; selected: boolean }[]
+  >([
+    {
+      name: "Personal Access Token",
+      selected: false,
+    },
+    {
+      name: "OAuth Token",
+      selected: false,
+    },
+    {
+      name: "GitHub App Token",
+      selected: false,
+    },
+  ]);
+  const { data: userData } = useUserData();
 
   const createProject = useMutation({
     mutationFn: async () => {

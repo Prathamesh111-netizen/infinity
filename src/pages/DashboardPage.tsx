@@ -18,6 +18,9 @@ import useStore from "../../store";
 import { Routes } from "../constants";
 import Project from "../components/Projects";
 import PATs from "../components/PATs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import toast, { Toaster } from "react-hot-toast";
 
 interface NavigationItem {
   name: string;
@@ -63,6 +66,7 @@ export default function Example() {
   const [navigations, setNavigations] = useState(navigation);
   const user = useStore((state) => state.user);
   const authToken = useStore((state) => state.authToken);
+  const setAuthToken = useStore((state) => state.setAuthToken);
 
   if (!authToken) {
     return <Navigate to={Routes.Home} />;
@@ -70,6 +74,7 @@ export default function Example() {
 
   return (
     <>
+    <Toaster />
       <div className="h-screen bg-gray-900">
         <Dialog
           open={sidebarOpen}
@@ -243,6 +248,19 @@ export default function Example() {
                     <span className="sr-only">Your profile</span>
                     <span aria-hidden="true">{user && user.username}</span>
                   </a>
+                </li>
+                <li>
+                  <div className="flex items-center gap-x-2 mx-3 cursor-pointer" onClick={()=>{
+                    toast.loading("Logging out...", { id: "logout" });
+                    setTimeout(() => {
+                      setAuthToken("");
+                      toast.dismiss("logout");
+                      toast.success("Logged out successfully");
+                    }, 1000);
+                  }}>
+                    <FontAwesomeIcon icon={faSignOutAlt} className="h-6 w-6 text-white my-2" />
+                    <span className="text-white ml-4">Logout</span>
+                  </div>
                 </li>
               </ul>
             </nav>

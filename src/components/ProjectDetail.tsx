@@ -1,17 +1,12 @@
-import React from "react";
-import useStore from "../../store";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
-import { useProjectData } from "../hooks";
-import ProjectProgress from "./projectDetailComponents/ProjectProgress";
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import useStore from "../../store";
 import Logs from "./projectDetailComponents/Logs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import Overview from "./projectDetailComponents/Overview";
-import Share from "./projectDetailComponents/Share";
 import Prev from "./projectDetailComponents/Prev";
-import { useMutation } from "@tanstack/react-query";
-import requester from "../../requester";
-import toast from "react-hot-toast";
+import ProjectProgress from "./projectDetailComponents/ProjectProgress";
+import Share from "./projectDetailComponents/Share";
 
 const tabs = [
   { name: "Overview", href: "#", current: true },
@@ -22,44 +17,16 @@ const tabs = [
 ];
 
 export default function ProjectDetail() {
-  const currentSelectedProject = useStore(
-    (state) => state.currentSelectedProject
-  );
-  const authToken = useStore((state) => state.authToken);
   const setSelectedProject = useStore(
     (state) => state.setCurrentSelectedProject
   );
-
-  const { data: ProjectDetailData } = useProjectData(
-    currentSelectedProject || ""
-  );
+  const deploymentId = useStore((state) => state.deploymentId);
 
   const [alltabs, setAllTabs] = React.useState(tabs);
 
-  const startPipeline = useMutation({
-    mutationFn: async () => {
-      toast.loading("Starting the pipeline");
-      return requester.post(`/api/orkes/${currentSelectedProject}`, {
-      }, {
-        headers: {
-          Authorization: authToken,
-        },
-      });
-    },
-
-    onSuccess: () => {
-      toast.success("Pipeline started successfully");
-    },
-    onError: () => {
-      toast.error("Failed to start the pipeline");
-    },
-    onSettled: () => {
-      // queryClient.invalidateQueries("projectData");
-    },
-  });
-
   return (
-    <div>
+    <div className="max-h-screen">
+      <Toaster />
       <button
         onClick={() => setSelectedProject(null)}
         className="py-2 text-white rounded-full flex justify-center gap-x-2 items-center"
@@ -130,16 +97,7 @@ export default function ProjectDetail() {
           </div>
         </div>
       </div>
-      <div>
-        <div className="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <h1 className="text-2xl font-bold text-white">
-              Deployment
-            </h1>
-            <p className="text-white">{"http://ec2-13-233-142-101.ap-south-1.compute.amazonaws.com:81/"}</p>
-          </div>
-        </div>
-      </div>
+      <div></div>
       <div>
         <div className="mx-auto w-[70vw] pl-10">
           {alltabs.find((tab) => tab.current)?.name === "Overview" && (
@@ -147,22 +105,28 @@ export default function ProjectDetail() {
           )}
           {alltabs.find((tab) => tab.current)?.name === "Activity" && (
             <div>
-              <button className="bg-indigo-500 text-white rounded-full py-2 px-4 mb-2 flex justify-between items-center gap-x-2" onClick={()=>startPipeline.mutate()}>
-                <FontAwesomeIcon icon={faPlay} />
-                <p>start the pipeline</p>
-              </button>
-              <div className="bg-white/5 p-6 rounded-lg flex gap-x-2 justify-between">
-                <div className="w-1/2">
-                  <ProjectProgress />
-                </div>
-                <div className="w-1/2">
-                  <Logs />
-                </div>
+              <h1 className="text-md font-bold text-gray-300 p-2">Deployment Id  : {deploymentId}</h1>
+              <div className="bg-white/5 p-6 rounded-lg flex gap-x-2 justify-between flex-col">
+                <ProjectProgress />
+                <Logs />
               </div>
             </div>
           )}
-          {alltabs.find((tab) => tab.current)?.name === "Collaborators" && <Share />}
-          {alltabs.find((tab) => tab.current)?.name === "Previous Runs" && <Prev />}
+          {alltabs.find((tab) => tab.current)?.name === "Collaborators" && (
+            <Share />
+          )}
+          {alltabs.find((tab) => tab.current)?.name === "Previous Runs" && (
+            <Prev
+              seeLogsTab={() => {
+                setAllTabs((prev) =>
+                  prev.map((t) => ({
+                    ...t,
+                    current: t.name === "Activity",
+                  }))
+                );
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
