@@ -67,12 +67,6 @@ export default function Example() {
                 >
                   Status
                 </th>
-                <th
-                  scope="col"
-                  className="hidden py-2 pl-0 pr-4 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8"
-                >
-                  Deployed at
-                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -130,7 +124,7 @@ export default function Example() {
                       </div>
                       <div className="hidden text-white sm:block">
                         {/* {item.status} */}
-                        Completed
+                        Active
                       </div>
                     </div>
                   </td>

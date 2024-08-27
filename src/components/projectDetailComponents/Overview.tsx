@@ -5,7 +5,7 @@ import { useProjectData } from "../../hooks";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import requester from "../../../requester";
-import { faLink, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faFolder, faHSquare, faJoint, faLink, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 export default function Overview() {
   const currentSelectedProject = useStore(

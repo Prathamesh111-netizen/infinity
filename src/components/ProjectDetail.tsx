@@ -7,13 +7,14 @@ import Overview from "./projectDetailComponents/Overview";
 import Prev from "./projectDetailComponents/Prev";
 import ProjectProgress from "./projectDetailComponents/ProjectProgress";
 import Share from "./projectDetailComponents/Share";
+import Settings from "./projectDetailComponents/Settings";
 
 const tabs = [
   { name: "Overview", href: "#", current: true },
   { name: "Activity", href: "#", current: false },
   { name: "Previous Runs", href: "#", current: false },
   { name: "Collaborators", href: "#", current: false },
-  { name: "Notifications", href: "#", current: false },
+  { name: "Settings", href: "#", current: false },
 ];
 
 export default function ProjectDetail() {
@@ -127,6 +128,11 @@ export default function ProjectDetail() {
               }}
             />
           )}
+          {
+            alltabs.find((tab) => tab.current)?.name === "Settings" && (
+              <Settings />
+            )
+          }
         </div>
       </div>
     </div>

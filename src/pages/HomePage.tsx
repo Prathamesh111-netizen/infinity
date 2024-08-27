@@ -1,7 +1,9 @@
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Routes } from "../constants";
+import useStore from "../../store";
 
 export default function HomePage() {
+  const authToken = useStore((state) => state.authToken);
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 ">
       <svg
@@ -47,11 +49,7 @@ export default function HomePage() {
       </div>
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
         <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-          <img
-            alt="Your Company"
-            src="/logo.png"
-            className="h-11"
-          />
+          <img alt="Your Company" src="/logo.png" className="h-11" />
           <div className="mt-24 sm:mt-32 lg:mt-16">
             <a href="#" className="inline-flex space-x-6">
               <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
@@ -70,16 +68,22 @@ export default function HomePage() {
             Deploy to the cloud with confidence
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Our platform provides you with all the tools you need to
-            deploy your projects with ease and confidence
+            Our platform provides you with all the tools you need to deploy your
+            projects with ease and confidence
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <a
-              href={Routes.Login}
+            <button
+              onClick={() => {
+                if (authToken) {
+                  window.location.href = Routes.Dashboard;
+                } else {
+                  window.location.href = Routes.Login;
+                }
+              }}
               className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             >
               Get started
-            </a>
+            </button>
             <a href="#" className="text-sm font-semibold leading-6 text-white">
               Learn more <span aria-hidden="true">→</span>
             </a>
@@ -89,7 +93,7 @@ export default function HomePage() {
           <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
             <img
               alt="App screenshot"
-              src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+              src="./dashboard.png"
               width={2432}
               height={1442}
               className="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10"

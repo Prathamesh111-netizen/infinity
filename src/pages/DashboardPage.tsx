@@ -21,6 +21,7 @@ import PATs from "../components/PATs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import toast, { Toaster } from "react-hot-toast";
+import Instructions from "../components/Instructions";
 
 interface NavigationItem {
   name: string;
@@ -53,7 +54,7 @@ const navigation: NavigationItem[] = [
     component: <></>,
   },
   {
-    name: "Settings",
+    name: "Instructions",
     href: "#",
     icon: Cog6ToothIcon,
     current: false,
@@ -74,7 +75,7 @@ export default function Example() {
 
   return (
     <>
-    <Toaster />
+      <Toaster />
       <div className="h-screen bg-gray-900">
         <Dialog
           open={sidebarOpen}
@@ -250,15 +251,21 @@ export default function Example() {
                   </a>
                 </li>
                 <li>
-                  <div className="flex items-center gap-x-2 mx-3 cursor-pointer" onClick={()=>{
-                    toast.loading("Logging out...", { id: "logout" });
-                    setTimeout(() => {
-                      setAuthToken("");
-                      toast.dismiss("logout");
-                      toast.success("Logged out successfully");
-                    }, 1000);
-                  }}>
-                    <FontAwesomeIcon icon={faSignOutAlt} className="h-6 w-6 text-white my-2" />
+                  <div
+                    className="flex items-center gap-x-2 mx-3 cursor-pointer"
+                    onClick={() => {
+                      toast.loading("Logging out...", { id: "logout" });
+                      setTimeout(() => {
+                        setAuthToken("");
+                        toast.dismiss("logout");
+                        toast.success("Logged out successfully");
+                      }, 1000);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faSignOutAlt}
+                      className="h-6 w-6 text-white my-2"
+                    />
                     <span className="text-white ml-4">Logout</span>
                   </div>
                 </li>
@@ -279,13 +286,13 @@ export default function Example() {
                 "Personal Access tokens" && <PATs />}
             </div>
             {navigations.find((nav) => nav.current)?.name === "Services" && (
-              <>
+              <div className="ml-4">
+                <h1 className="text-white">*not implemented</h1>
                 <img src="/services.png" />
-              </>
+              </div>
             )}
-            {navigations.find((nav) => nav.current)?.name === "Settings" && (
-              <></>
-            )}
+            {navigations.find((nav) => nav.current)?.name ===
+              "Instructions" && <Instructions />}
           </main>
         </div>
       </div>
